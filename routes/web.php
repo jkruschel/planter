@@ -14,8 +14,12 @@ use App\Http\Controllers\displayItemController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [displayItemController::class, 'index']);
 
 Route::get('/displayItem', [displayItemController::class, 'displayItem'])->name('displayItem');
+
+Route::get('/createItem', function () {
+    return view('createItem');
+});
+
+Route::post('/saveItem', [displayItemController::class, 'saveItem'])->name('saveItem');

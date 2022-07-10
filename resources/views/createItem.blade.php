@@ -30,13 +30,16 @@
             <div class="h-4">PlantER</div>
         </div>
         <div class="flex flex-col items-center">
-            <!-- Content Container -->
-            @foreach ($listItems as $listItem)
-            <div class="flex items-center">
-                <img class="h-20 w-20" src="http://placekitten.com/300">
-                <div>{{$listItem->beschreibung}}<a href="{{ route('displayItem') }}">testbutton</a></div>
-            </div>
-            @endforeach
+        <h1 class="text-6xl font-normal leading-normal mt-0 mb-2 text-lime-800">Neuen Fall erstellen</h1>
+        <form method="post" action="{{ route('saveItem') }}">
+            {{csrf_field()}}
+            <img src="http://placekitten.com/300"/>
+            <label for="beschreibung">Beschreibung</label>
+            <br>
+            <input class="bg-gray-100" type="text" name="beschreibung"/>
+            <br>
+            <button type="submit">Abspeichern</button>
+        </form>
         </div>
     </body>
 </html>
