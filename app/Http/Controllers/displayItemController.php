@@ -13,9 +13,13 @@ class displayItemController extends Controller
         return view('welcome', ['listItems' => listItem::all()]);
     }
 
-    public function displayItem() {
-        echo '<script>alert("Welcome to Geeks for Geeks")</script>';
-        return view('displayItem');
+    public function loginPage() {
+        return view('home');
+    }
+
+    public function displayItem($id) {
+        \Log::info($id);
+        return view('welcome', ['listItems' => listItem::all()]);
     }
 
     public function saveItem(Request $request){

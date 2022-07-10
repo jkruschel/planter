@@ -22,19 +22,41 @@
         </style>
     </head>
     <body class="antialiased flex flex-col">
-        <div class="flex justify-end bg-red-600 h-20">
-            <button>registrieren</button>
-            <button>anmelden</button>
+        <div class="flex flex-col items-end h-20 sticky">
+            @if(!Auth::user())
+            <a class="text-lg text-blue-600 hover:underline" href="{{ route('register') }}">Registrieren</a>
+            <a class="text-lg text-blue-600 hover:underline" href="{{ route('login') }}">anmelden</a>
+            @endif
+            @if(Auth::user())             
+            <div class="text-lg text-blue-600 hover:underline" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+            </div>
+            <span>Hallo {{ Auth::user()->name }}</span>
+            @endif
         </div>
         <div class="bg-green-600 flex justify-center items-center h-40">
             <div class="h-4">PlantER</div>
         </div>
-        <div class="flex flex-col items-center">
+        <div class="grid grid-cols-3 gap-4 items-center">
+        @if(Auth::user())<a class="col-start-3" href="/createItem">Neuen Fall Anlegen</a>@endif
             <!-- Content Container -->
             @foreach ($listItems as $listItem)
-            <div class="flex items-center">
+            <div class="col-start-2 flex items-center shadow-md border">
                 <img class="h-20 w-20" src="http://placekitten.com/300">
-                <div>{{$listItem->beschreibung}}<a href="{{ route('displayItem') }}">testbutton</a></div>
+                <div>{{$listItem->beschreibung}}
+                    <form method="post" action="{{ route ('displayItem', $listItem->id) }}">
+                        {{csrf_field()}}
+                    <button type="submit">testbutton</button>
+                    </form>
+                </div>
             </div>
             @endforeach
         </div>

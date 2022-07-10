@@ -22,10 +22,6 @@
         </style>
     </head>
     <body class="antialiased flex flex-col">
-        <div class="flex justify-end bg-red-600 h-20">
-            <button>registrieren</button>
-            <button>anmelden</button>
-        </div>
         <div class="bg-green-600 flex justify-center items-center h-40">
             <div class="h-4">PlantER</div>
         </div>
@@ -36,7 +32,7 @@
             <img src="http://placekitten.com/300"/>
             <label for="beschreibung">Beschreibung</label>
             <br>
-            <input class="bg-gray-100" type="text" name="beschreibung"/>
+            <input class="bg-gray-100" type="text" name="beschreibung" required="required"/>
             <br>
             <button type="submit">Abspeichern</button>
         </form>
