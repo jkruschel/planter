@@ -19,7 +19,10 @@ class displayItemController extends Controller
 
     public function displayItem($id) {
         \Log::info($id);
-        return view('welcome', ['listItems' => listItem::all()]);
+        $listItem = listItem::find($id);
+        $listItem->imgURL = 
+        \Log::info($listItem);
+        return view('displayItem', ['listItem' => $listItem]);
     }
 
     public function saveItem(Request $request){
@@ -28,7 +31,7 @@ class displayItemController extends Controller
         $newListItem = new listItem;
         $newListItem->beschreibung = $request->beschreibung;
         $newListItem->closed = false;
-        $newListItem->benutzer_id = 1;
+        $newListItem->benutzer_id = auth()->user()->id;
         $newListItem->save();
 
         return view('welcome', ['listItems' => listItem::all()]);

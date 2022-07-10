@@ -22,6 +22,38 @@
         </style>
     </head>
     <body class="antialiased flex flex-col">
-            hi
+            <div class="flex flex-col items-end h-20 sticky">
+            @if(!Auth::user())
+            <a class="text-lg text-blue-600 hover:underline" href="{{ route('register') }}">Registrieren</a>
+            <a class="text-lg text-blue-600 hover:underline" href="{{ route('login') }}">anmelden</a>
+            @endif
+            @if(Auth::user())             
+            <div class="text-lg text-blue-600 hover:underline" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+            </div>
+            <span>Hallo {{ Auth::user()->name }}</span>
+            @endif
+        </div>
+        <div class="bg-green-600 flex justify-center items-center h-40">
+            <a class="h-4" href="/">PlantER</a>
+        </div>
+        <div class="grid grid-cols-5 gap-4 items-center">
+            <!-- Bild -->
+            <div class="col-start-1 col-end-3 m-12 shadow-md border">
+                <img src="http://placekitten.com/400">
+            </div>
+            <!-- Beschreibung -->
+            <div class="bg-gray-300 h-3/5 w-full col-start-3 col-end-5 p-10 shadow-md border">
+                <p>{{$listItem->beschreibung}}</p>
+            </div>
+        </div>
     </body>
 </html>

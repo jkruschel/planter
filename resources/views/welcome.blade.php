@@ -43,7 +43,7 @@
             @endif
         </div>
         <div class="bg-green-600 flex justify-center items-center h-40">
-            <div class="h-4">PlantER</div>
+            <a class="h-4" href="/">PlantER</a>
         </div>
         <div class="grid grid-cols-3 gap-4 items-center">
         @if(Auth::user())<a class="col-start-3" href="/createItem">Neuen Fall Anlegen</a>@endif
