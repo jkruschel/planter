@@ -21,6 +21,8 @@ Route::get('/displayItem/{id}', [displayItemController::class, 'displayItem'])->
 
 Route::post('/createKommentar/{id}', [displayItemController::class, 'createKommentar'])->name('createKommentar');
 
+Route::get('/markWinner/{id}', [displayItemController::class, 'markWinner'])->name('markWinner');
+
 Route::post('/deleteItem/{id}', [fileController::class, 'deleteItem'])->name('deleteItem');
 
 Route::get('/createItem', function () {
@@ -35,3 +37,4 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/loginPage', [App\Http\Controllers\displayItemController::class, 'loginPage'])->name('loginPage');
 
+Route::get('/profile', [App\Http\Controllers\HomeController::class, 'profile'])->name('profile');

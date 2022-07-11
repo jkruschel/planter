@@ -26,4 +26,8 @@ class HomeController extends Controller
     {
         return view('welcome', ['listItems' => listItem::all()]);
     }
+
+    public function profile(){
+        return view('profile');
+    }
 }

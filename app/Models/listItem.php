@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class listItem extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'closed',
+        'beschreibung'
+    ];
 }

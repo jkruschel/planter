@@ -23,7 +23,7 @@
     </head>
     <body class="antialiased flex flex-col">
         <div class="bg-green-600 flex justify-center items-center h-40">
-            <div class="h-4">PlantER</div>
+            <a class="h-4" href="/">PlantER</a>
         </div>
         <div class="flex flex-col items-center">
         <h1 class="text-6xl font-normal leading-normal mt-0 mb-2 text-lime-800">Neuen Fall erstellen</h1>

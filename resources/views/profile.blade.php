@@ -23,10 +23,6 @@
     </head>
     <body class="antialiased flex flex-col">
         <div class="flex flex-col items-end h-20 sticky">
-            @if(!Auth::user())
-            <a class="text-lg text-blue-600 hover:underline" href="{{ route('register') }}">Registrieren</a>
-            <a class="text-lg text-blue-600 hover:underline" href="{{ route('login') }}">anmelden</a>
-            @endif
             @if(Auth::user())             
             <div class="text-lg text-blue-600 hover:underline" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"
@@ -39,38 +35,40 @@
                                         @csrf
                                     </form>
             </div>
-            <div class="flex gap-1">
-            <span>Hallo</span>
-            <form id ="profile-form" action="{{ route('profile') }}" method="GET">
-                @csrf
-                <button class="text-blue-600 hover:underline" type="submit">{{ Auth::user()->name }} ({{ Auth::user()->score }})</button>
-            </form>
-            </div>
+            <span>Hallo {{ Auth::user()->name }}</span>
             @endif
         </div>
         <div class="bg-green-600 flex justify-center items-center h-40">
             <a class="h-4" href="/">PlantER</a>
         </div>
-        <div class="grid grid-cols-5 gap-4 items-center">
-        @if(Auth::user())<a class="col-start-3 justify-self-center" href="/createItem">Neuen Fall Anlegen</a>@endif
-            <!-- Content Container -->
+
+        <div class="flex flex-col items-center">
+            <h1 class="text-8xl">Profil</h1>
+            <!-- Profildaten -->
+            <div>
+                <p>Name: {{ Auth::user()->name }}</p>
+                <p>Email: {{ Auth::user()->email }}</p>
+                <p>Score: {{ Auth::user()->score }}</p>
+            </div>
+            <!-- Offene Fälle -->
+            <div class="grid grid-cols-3 gap-4 w-full">
             @foreach ($listItems as $listItem)
-            <div class="col-start-2 col-end-5 flex items-center shadow-md border w-full @if($listItem->closed == 1) bg-green-400 @else bg-gray-100 @endif">
+            @if($listItem->benutzer_id == Auth::user()->id && $listItem->closed == 0)
+            <div class="col-start-2 flex items-center shadow-md border w-full">
                 <a href="{{ route ('displayItem', $listItem->id) }}">
-                <img class="h-40 w-40" src="{{ asset('images/' . DB::table('bilds')->where('listItem_id', $listItem->id)->value('source')) }}">
+                <img class="h-20 w-20" src="{{ asset('images/' . DB::table('bilds')->where('listItem_id', $listItem->id)->value('source')) }}">
                 </a>
                 <div class="inline w-full">
-                    <p>Benutzer: {{ DB::table('users')->where('id', $listItem->benutzer_id)->value('name') }}</p>
                     <p class="float-left pl-4">{{$listItem->beschreibung}}</p>
-                    @if (Auth::user() && $listItem->benutzer_id == Auth::user()->id)
-                    <form class="float-right pr-4" method="post" action="{{ route ('deleteItem', $listItem->id) }}">
+                    <form class="float-right" method="post" action="{{ route ('deleteItem', $listItem->id) }}">
                         {{csrf_field()}}
                     <button type="submit">Löschen</button>
                     </form>
-                    @endif
                 </div>
             </div>
+            @endif
             @endforeach
+        </div>
         </div>
     </body>
 </html>

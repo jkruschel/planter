@@ -21,7 +21,7 @@
             }
         </style>
     </head>
-    <body class="antialiased flex flex-col">
+    <body class="antialiased flex flex-col gap-3">
             <div class="flex flex-col items-end h-20 sticky">
             @if(!Auth::user())
             <a class="text-lg text-blue-600 hover:underline" href="{{ route('register') }}">Registrieren</a>
@@ -39,13 +39,23 @@
                                         @csrf
                                     </form>
             </div>
-            <span>Hallo {{ Auth::user()->name }}</span>
+            <div class="flex gap-1">
+            <span>Hallo</span>
+            <form id ="profile-form" action="{{ route('profile') }}" method="GET">
+                @csrf
+                <button class="text-blue-600 hover:underline" type="submit">{{ Auth::user()->name }} ({{ Auth::user()->score }})</button>
+            </form>
+            </div>
             @endif
         </div>
         <div class="bg-green-600 flex justify-center items-center h-40">
             <a class="h-4" href="/">PlantER</a>
         </div>
+
         <div class="grid grid-cols-5 gap-4 items-center">
+            @if($listItem->closed == 1)
+                <h2 class="col-start-3">Der Fall ist geschlossen!</h2>
+            @endif
             <!-- Bild -->
             <div class="col-start-1 col-end-3 m-12 shadow-md border">
                 <img src="{{ asset('images/' . DB::table('bilds')->where('listItem_id', $listItem->id)->value('source')) }}">
@@ -55,11 +65,13 @@
                 <p>{{$listItem->beschreibung}}</p>
             </div>
         </div>
-        <form method="post" action="{{ route ('createKommentar', $listItem->id) }}">
+        @if($listItem->closed == 0)
+        <form class="flex flex-col items-center gap-3" method="post" action="{{ route ('createKommentar', $listItem->id) }}">
                         {{csrf_field()}}
-                    <input type="text" name="text" required="required"/>
-                    <button type="submit">Kommentar schreiben</button>
+                    <input class="bg-yellow-200 h-24 w-3/6" type="text" name="text" required="required"/>
+                    <button class="bg-gray-100" type="submit">Kommentar schreiben</button>
          </form>
+         @endif
          <!-- Kommentarbereich -->
         <div class="flex justify-center">
         <div class="flex flex-col gap-3 w-3/5 items-center">
@@ -68,14 +80,18 @@
                 @continue
             @endif
             <!-- Kommentarbox -->
-            <div class="bg-gray-300 h-3/5 w-full col-start-3 col-end-5 p-10 shadow-md border grid grid-cols-4">
-                <p class="col-span-1">@if (DB::table('users')->where('id', $kommentar->benutzer_id)->value('name'))
-                        {{ DB::table('users')->where('id', $kommentar->benutzer_id)->value('name') }}
+            <div class="@if($kommentar->score == 1) bg-green-600 @else bg-gray-300 @endif h-3/5 w-full col-start-3 col-end-5 p-10 shadow-md border grid grid-cols-5">
+                <p class="col-span-1">
+                    @if (DB::table('users')->where('id', $kommentar->benutzer_id)->value('name'))
+                        {{ DB::table('users')->where('id', $kommentar->benutzer_id)->value('name') }}({{ DB::table('users')->where('id', $kommentar->benutzer_id)->value('score') }})
                     @else
                         Anonymous
                     @endif
                 </p>
                 <p class="col-span-3">{{ $kommentar->content}}</p>
+                @if (Auth::user() && Auth::user()->id == $listItem->benutzer_id && $listItem->closed == 0)
+                    <a href="{{ route('markWinner', $kommentar->id) }}">Als Lösung markieren</a>
+                @endif
             </div>
             @endforeach
         </div>
