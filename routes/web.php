@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\displayItemController;
+use App\Http\Controllers\fileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,13 +17,18 @@ use App\Http\Controllers\displayItemController;
 
 Route::get('/', [displayItemController::class, 'index']);
 
-Route::post('/displayItem/{id}', [displayItemController::class, 'displayItem'])->name('displayItem');
+Route::get('/displayItem/{id}', [displayItemController::class, 'displayItem'])->name('displayItem');
+
+Route::post('/createKommentar/{id}', [displayItemController::class, 'createKommentar'])->name('createKommentar');
+
+Route::post('/deleteItem/{id}', [fileController::class, 'deleteItem'])->name('deleteItem');
 
 Route::get('/createItem', function () {
     return view('createItem');
 })->name('createItem');
 
-Route::post('/saveItem', [displayItemController::class, 'saveItem'])->name('saveItem');
+Route::post('/saveItem', [fileController::class, 'saveItem'])->name('saveItem');
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

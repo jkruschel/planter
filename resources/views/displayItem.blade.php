@@ -48,12 +48,37 @@
         <div class="grid grid-cols-5 gap-4 items-center">
             <!-- Bild -->
             <div class="col-start-1 col-end-3 m-12 shadow-md border">
-                <img src="http://placekitten.com/400">
+                <img src="{{ asset('images/' . DB::table('bilds')->where('listItem_id', $listItem->id)->value('source')) }}">
             </div>
             <!-- Beschreibung -->
             <div class="bg-gray-300 h-3/5 w-full col-start-3 col-end-5 p-10 shadow-md border">
                 <p>{{$listItem->beschreibung}}</p>
             </div>
+        </div>
+        <form method="post" action="{{ route ('createKommentar', $listItem->id) }}">
+                        {{csrf_field()}}
+                    <input type="text" name="text" required="required"/>
+                    <button type="submit">Kommentar schreiben</button>
+         </form>
+         <!-- Kommentarbereich -->
+        <div class="flex justify-center">
+        <div class="flex flex-col gap-3 w-3/5 items-center">
+            @foreach ($kommentare as $kommentar)
+            @if ($kommentar->fall_id != $listItem->id)
+                @continue
+            @endif
+            <!-- Kommentarbox -->
+            <div class="bg-gray-300 h-3/5 w-full col-start-3 col-end-5 p-10 shadow-md border grid grid-cols-4">
+                <p class="col-span-1">@if (DB::table('users')->where('id', $kommentar->benutzer_id)->value('name'))
+                        {{ DB::table('users')->where('id', $kommentar->benutzer_id)->value('name') }}
+                    @else
+                        Anonymous
+                    @endif
+                </p>
+                <p class="col-span-3">{{ $kommentar->content}}</p>
+            </div>
+            @endforeach
+        </div>
         </div>
     </body>
 </html>

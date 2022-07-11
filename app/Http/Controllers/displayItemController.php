@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\listItem;
+use App\Models\kommentar;
 
 class displayItemController extends Controller
 {
     //
 
     public function index() {
-        return view('welcome', ['listItems' => listItem::all()]);
+        return view('welcome');
     }
 
     public function loginPage() {
@@ -18,22 +19,23 @@ class displayItemController extends Controller
     }
 
     public function displayItem($id) {
-        \Log::info($id);
         $listItem = listItem::find($id);
-        $listItem->imgURL = 
-        \Log::info($listItem);
-        return view('displayItem', ['listItem' => $listItem]);
+        return view('displayItem', ['listItem' => $listItem, 'kommentare' =>kommentar::all()]);
     }
 
-    public function saveItem(Request $request){
-        \Log::info(json_encode($request->all()));
-
-        $newListItem = new listItem;
-        $newListItem->beschreibung = $request->beschreibung;
-        $newListItem->closed = false;
-        $newListItem->benutzer_id = auth()->user()->id;
-        $newListItem->save();
-
-        return view('welcome', ['listItems' => listItem::all()]);
+    public function createKommentar(Request $request, $id){
+        $newKommentar = new kommentar();
+        $newKommentar->content = $request->text;
+        $newKommentar->fall_id = $id;
+        $newKommentar->score = 0;
+        if(auth()->user()){
+            $newKommentar->benutzer_id = auth()->user()->id;
+        }
+        else $newKommentar->benutzer_id = null;
+        $newKommentar->save();
+        
+        return redirect('/displayItem' . '/' . $id);
     }
+
+
 }

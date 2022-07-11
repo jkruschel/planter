@@ -50,12 +50,18 @@
             <!-- Content Container -->
             @foreach ($listItems as $listItem)
             <div class="col-start-2 flex items-center shadow-md border">
-                <img class="h-20 w-20" src="http://placekitten.com/300">
+                <img class="h-20 w-20" src="{{ asset('images/' . DB::table('bilds')->where('listItem_id', $listItem->id)->value('source')) }}">
                 <div>{{$listItem->beschreibung}}
-                    <form method="post" action="{{ route ('displayItem', $listItem->id) }}">
+                    <form method="get" action="{{ route ('displayItem', $listItem->id) }}">
                         {{csrf_field()}}
                     <button type="submit">testbutton</button>
                     </form>
+                    @if (Auth::user() && $listItem->benutzer_id == Auth::user()->id)
+                    <form method="post" action="{{ route ('deleteItem', $listItem->id) }}">
+                        {{csrf_field()}}
+                    <button type="submit">Löschen</button>
+                    </form>
+                    @endif
                 </div>
             </div>
             @endforeach

@@ -27,9 +27,10 @@
         </div>
         <div class="flex flex-col items-center">
         <h1 class="text-6xl font-normal leading-normal mt-0 mb-2 text-lime-800">Neuen Fall erstellen</h1>
-        <form method="post" action="{{ route('saveItem') }}">
+        <form method="post" action="{{ route('saveItem') }}" enctype="multipart/form-data">
             {{csrf_field()}}
-            <img src="http://placekitten.com/300"/>
+            <input type="file" name="picture"/>
+            <br>
             <label for="beschreibung">Beschreibung</label>
             <br>
             <input class="bg-gray-100" type="text" name="beschreibung" required="required"/>
