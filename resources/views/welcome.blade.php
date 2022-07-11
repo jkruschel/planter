@@ -52,7 +52,7 @@
             <a class="h-4" href="/">PlantER</a>
         </div>
         <div class="grid grid-cols-5 gap-4 items-center">
-        @if(Auth::user())<a class="col-start-3 justify-self-center" href="/createItem">Neuen Fall Anlegen</a>@endif
+        @if(Auth::user())<a class="mt-4 col-start-3 justify-self-center bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded" href="/createItem">Neuen Fall Anlegen</a>@endif
             <!-- Content Container -->
             @foreach ($listItems as $listItem)
             <div class="col-start-2 col-end-5 flex items-center shadow-md border w-full @if($listItem->closed == 1) bg-green-400 @else bg-gray-100 @endif">

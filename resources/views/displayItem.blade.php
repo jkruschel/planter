@@ -68,8 +68,8 @@
         @if($listItem->closed == 0)
         <form class="flex flex-col items-center gap-3" method="post" action="{{ route ('createKommentar', $listItem->id) }}">
                         {{csrf_field()}}
-                    <input class="bg-yellow-200 h-24 w-3/6" type="text" name="text" required="required"/>
-                    <button class="bg-gray-100" type="submit">Kommentar schreiben</button>
+                    <input class="bg-yellow-100 h-24 w-3/6" type="text" name="text" required="required"/>
+                    <button class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded" type="submit">Kommentar schreiben</button>
          </form>
          @endif
          <!-- Kommentarbereich -->
